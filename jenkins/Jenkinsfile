@@ -15,7 +15,7 @@ pipeline {
 
         stage("Clone Repo") {
             steps {
-                sh "git clone https://github.com/jenkins-docs/simple-java-maven-app.git"
+                sh "git clone https://github.com/Nileshgithub23/simple-java-maven-app.git"
             }
         }
 
@@ -42,7 +42,15 @@ pipeline {
 
         stage("Deliver") {
             steps {
-                sh "sh simple-java-maven-app/jenkins/scripts/deliver.sh"
+                dir("simple-java-maven-app") { // ✅ Fixing the directory issue
+                    sh """
+                        mvn install
+                        APP_NAME=\$(mvn -q -DforceStdout help:evaluate -Dexpression=project.artifactId)
+                        APP_VERSION=\$(mvn -q -DforceStdout help:evaluate -Dexpression=project.version)
+                        echo "Running JAR: target/\${APP_NAME}-\${APP_VERSION}.jar"
+                        java -jar target/\${APP_NAME}-\${APP_VERSION}.jar
+                    """
+                }
             }
         }
 
