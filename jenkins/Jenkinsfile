@@ -19,7 +19,7 @@ pipeline {
             }
         }
 
-        stage("Build") {
+        stage("Build stage") {
             steps {
                 sh 'cd simple-java-maven-app && mvn clean install'
             }
