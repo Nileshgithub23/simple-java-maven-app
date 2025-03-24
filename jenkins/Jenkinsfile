@@ -1,24 +1,27 @@
 pipeline {
     agent any
+
+    environment {
+        MAVEN_HOME = "/usr/local/apache-maven-3.9.9"
+        PATH = "${MAVEN_HOME}/bin:${env.PATH}"
+    }
+
     stages {
-        stage('Build') {
+        stage("Setup Maven") {
             steps {
-                sh 'mvn -B -DskipTests clean package'
+                sh 'mvn -version'
             }
         }
-        stage('Test') {
+
+        stage("Clone Repo") {
             steps {
-                sh 'mvn test'
-            }
-            post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
-                }
+                sh 'git clone https://github.com/Nileshgithub23/simple-java-maven-app.git'
             }
         }
-        stage('Deliver') { 
+
+        stage("Build") {
             steps {
-                sh './jenkins/scripts/deliver.sh' 
+                sh 'cd simple-java-maven-app && mvn clean install'
             }
         }
     }
