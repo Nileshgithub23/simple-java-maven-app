@@ -13,7 +13,7 @@ pipeline {
             }
         }
 
-        stage("Clone Repo") {
+        stage("Clone Repos") {
             steps {
                 sh 'git clone https://github.com/Nileshgithub23/simple-java-maven-app.git'
             }
