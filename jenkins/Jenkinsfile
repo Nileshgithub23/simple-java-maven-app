@@ -1,27 +1,28 @@
 pipeline {
     agent any
+
+    environment {
+        MAVEN_HOME = "/usr/local/apache-maven-3.9.9"
+        PATH = "${MAVEN_HOME}/bin:${env.PATH}"
+    }
+
     stages {
-        stage("Clean Up"){
+        stage("Clean Up") {
             steps {
-                deleteDir()
+                deleteDir()  // Clean up workspace
             }
         }
-        stage("Clone Repo"){
+
+        stage("Clone Repo") {
             steps {
-                sh "git clone https://github.com/jenkins-docs/simple-java-maven-app.git"
+                sh 'git clone https://github.com/Nileshgithub23/simple-java-maven-app.git'
             }
         }
-        stage("Build"){
+
+        stage("Build") {
             steps {
-                dir("simple-java-maven-app") {
-                    sh "mvn clean install"
-                }
-            }
-        }
-        stage("Test"){
-            steps {
-                dir("simple-java-maven-app") {
-                    sh "mvn test"
+                dir('simple-java-maven-app') {
+                    sh 'mvn clean install'
                 }
             }
         }
