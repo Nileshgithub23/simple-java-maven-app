@@ -13,13 +13,13 @@ pipeline {
             }
         }
 
-        stage("Clone Repos") {
+        stage("Clone Repo") {
             steps {
                 sh 'git clone https://github.com/Nileshgithub23/simple-java-maven-app.git'
             }
         }
 
-        stage("Build stage") {
+        stage("Build") {
             steps {
                 sh 'cd simple-java-maven-app && mvn clean install'
             }
